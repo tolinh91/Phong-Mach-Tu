@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cơ sở dữ liệu
+db.sqlite3
+
+# Môi trường ảo (nếu có)
+venv/
+env/
+.venv/
+.env/
+
+# Tệp log và cache
+*.log
+*.pot
+*.pyc
+*.pyo
+*.mo
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Django stuff
+*.sqlite3
+/staticfiles/
+/media/
+/local_settings.py
+
+# VSCode & IDE
+.vscode/
+.idea/
+
+# Migration files (tuỳ chọn)
+**/migrations/*.pyc
+**/migrations/__pycache__/
+**/migrations/*.py
+!*/migrations/__init__.py
+
+# Hệ điều hành
+.DS_Store
+Thumbs.db
