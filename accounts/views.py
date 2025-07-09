@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegisterForm
 
@@ -29,3 +30,12 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return render(request, 'accounts/logout.html') 
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        messages.success(request, 'Tài khoản đã được xóa thành công.')
+        return redirect('login')  # hoặc trang chủ
+    return redirect('home')  # không cho truy cập GET
