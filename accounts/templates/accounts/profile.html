@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container">
+    <h2>Trang cá nhân</h2>
+    <p><strong>Tên:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <a href="{% url 'edit_account' %}" class="btn btn-warning">Sửa thông tin</a>
+  </div>
+{% endblock %}
