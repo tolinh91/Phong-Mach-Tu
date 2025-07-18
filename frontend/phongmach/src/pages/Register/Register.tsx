@@ -1,6 +1,7 @@
+// ...existing code from Register.tsx...
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import appIcon from '../assets/appicon.png';
+import appIcon from '../../assets/appicon.png';
 
 function Register() {
   const [form, setForm] = useState({
