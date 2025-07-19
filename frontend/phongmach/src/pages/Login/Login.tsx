@@ -17,7 +17,7 @@ function Login() {
       setError('');
       setSuccess(true);
       setTimeout(() => {
-        navigate('/profile');
+        navigate('/main');
       }, 1200);
     } else {
       setError('Vui lòng kiểm tra lại tài khoản hoặc mật khẩu!');

@@ -18,9 +18,21 @@ function Register() {
     phone: "",
     address: "",
   });
+  const [error, setError] = useState("");
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => setForm({ ...form, [e.target.name]: e.target.value });
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    if (e.target.name === "email" && error) setError("");
+  };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (form.email.trim().toLowerCase() === "Admin@gmail.com") {
+      setError("Tài khoản đã được sử dụng.");
+      return;
+    }
+    // ...thêm logic xác nhận khác nếu cần...
+  };
   return (
     <div
       style={{
@@ -68,7 +80,12 @@ function Register() {
             }}
           />
         </div>
-        <form style={{ padding: 24 }}>
+        <form style={{ padding: 24 }} onSubmit={handleSubmit}>
+          {error && (
+            <div style={{ color: "red", marginBottom: 12, fontWeight: 500 }}>
+              {error}
+            </div>
+          )}
           <div style={{ display: "flex", gap: 24 }}>
             <div style={{ flex: 1 }}>
               <div style={{ marginBottom: 12 }}>
@@ -138,7 +155,12 @@ function Register() {
                   <option value="">Chọn vai trò</option>
                   <option value="BacSi">Bác sĩ</option>
                   <option value="YTa">Y tá</option>
-                  <option value="BenhNhan">Bệnh nhân</option>
+                  <option value="Duocsi">Dược sĩ</option>
+                  <option value="KTV">Kỹ Thuật Viên</option>
+                  <option value="Dieuduong">Điều dưỡng</option>
+                  <option value="KeToan">Kế toán</option>
+                  <option value="LeTan">Lễ Tân</option>
+                 
                 </select>
               </div>
               <div style={{ marginBottom: 12 }}>

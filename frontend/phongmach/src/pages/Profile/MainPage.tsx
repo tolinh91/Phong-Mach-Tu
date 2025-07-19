@@ -1,100 +1,218 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import appIcon from '../../assets/appicon.png';
 
-const menuItems = [
-  { label: 'Trang chủ', route: '/profile/main' },
-  { label: 'Giấy khám bệnh', route: '/giaykhambenh/danhsachkhambenh' },
-  { label: 'Bệnh nhân', route: '/benhnhan' },
-  { label: 'Đơn thuốc', route: '/donthuoc' },
-  { label: 'Thuốc', route: '/thuoc' },
-  { label: 'Vật tư', route: '/vattu' },
-  { label: 'Thanh toán', route: '/thanhtoan' },
-  { label: 'Cài đặt', route: '/caidat' },
+const sidebarItems = [
+  { label: "Trang chủ", icon: "🏠", route: "/main" },
+  { label: "Giấy khám bệnh", icon: "📄", route: "/qlgkb" },
+  { label: "Bệnh nhân", icon: "👤", route: "/qlbenhnhan" },
+  { label: "Đơn thuốc", icon: "📝", route: "/qldonthuoc" },
+  { label: "Thuốc", icon: "➕", route: "/thuoc" },
+  { label: "Vật tư", icon: "🔧", route: "/qlvattu" },
+  { label: "Thanh toán", icon: "💲", route: "/thanhtoan" },
+  { label: "Cài đặt", icon: "⚙️", route: "/caidat" },
 ];
 
-const userMenu = [
-  { label: 'Thông tin cá nhân', route: '/profile/main' },
-  { label: 'Đổi mật khẩu', route: '/profile/changepassword' },
-  { label: 'Thoát', route: '/login', color: 'red' },
-];
-
-const MainPage: React.FC = () => {
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
+function MainPage() {
   const navigate = useNavigate();
+  const [active, setActive] = useState("Trang chủ");
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleSidebarClick = (item: typeof sidebarItems[0]) => {
+    setActive(item.label);
+    switch (item.label) {
+      case "Trang chủ":
+        navigate("/main");
+        break;
+      case "Giấy khám bệnh":
+        navigate("/qlgkb");
+        break;
+      case "Bệnh nhân":
+        navigate("/qlbenhnhan");
+        break;
+      case "Đơn thuốc":
+        navigate("/qldonthuoc");
+        break;
+      case "Vật tư":
+        navigate("/qlvattu");
+        break;
+      case "Thanh toán":
+        navigate("/thanhtoan");
+        break;
+      case "Cài đặt":
+        navigate("/caidat");
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleMenuSelect = (option: string) => {
+    setMenuOpen(false);
+    if (option === "Thông tin cá nhân") navigate("/profile");
+    else if (option === "Đổi mật khẩu") navigate("/changepassword");
+    else if (option === "Thoát") navigate("/login");
+  };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f6fa' }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        width: '100vw',
+        display: 'flex',
+        background: '#f4f4f4',
+      }}
+    >
       {/* Sidebar */}
-      <aside style={{ width: 250, background: '#43536b', color: '#fff', padding: '24px 0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <img src={appIcon} alt="Logo" style={{ width: 120, borderRadius: '50%', marginBottom: 16, objectFit: 'cover', aspectRatio: '1/1', background: '#fff' }} />
-        <nav style={{ width: '100%' }}>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {menuItems.map(item => (
-              <li key={item.label} style={{ padding: '12px 32px', display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', fontWeight: item.label === 'Trang chủ' ? 600 : 400, background: item.label === 'Trang chủ' ? '#fff2' : 'none', color: item.label === 'Trang chủ' ? '#fff' : '#fff' }} onClick={() => navigate(item.route)}>
-                {/* You can add icons here if needed */}
-                {item.label}
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
-      {/* Main Content */}
-      <main style={{ flex: 1, padding: '32px 0 0 0' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 32px' }}>
-          <div style={{ fontSize: '1.4rem', fontWeight: 600 }}>Trang chủ</div>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12 }}>
-            <img src={appIcon} alt="Logo" style={{ width: 40, borderRadius: '50%', cursor: 'pointer', objectFit: 'cover', aspectRatio: '1/1', background: '#fff' }} onClick={() => setUserMenuOpen(v => !v)} />
-            <span style={{ fontWeight: 500 }}>Mạnh</span>
-            <span style={{ fontSize: 18, cursor: 'pointer' }} onClick={() => setUserMenuOpen(v => !v)}>▼</span>
-            {userMenuOpen && (
-              <div style={{ position: 'absolute', top: 48, right: 0, background: '#fff', boxShadow: '0 2px 8px #0002', borderRadius: 8, minWidth: 180, zIndex: 10 }}>
-                {userMenu.map(item => (
-                  <div key={item.label} onClick={() => { setUserMenuOpen(false); navigate(item.route); }} style={{ padding: '12px 20px', cursor: 'pointer', color: item.color || '#222', borderBottom: '1px solid #eee', fontWeight: 500 }}>
-                    {item.label}
-                  </div>
-                ))}
+      <div
+        style={{
+          width: 250,
+          minWidth: 70,
+          background: '#2d4a7a',
+          color: '#fff',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          paddingTop: 24,
+          position: 'relative',
+        }}
+      >
+        <img
+          src={appIcon}
+          alt="logo"
+          style={{
+            width: '70%',
+            maxWidth: 90,
+            minWidth: 50,
+            borderRadius: '50%',
+            marginBottom: 24,
+            background: '#fff',
+            objectFit: 'cover',
+          }}
+        />
+        {sidebarItems.map(item => (
+          <div
+            key={item.label}
+            onClick={() => handleSidebarClick(item)}
+            style={{
+              width: '90%',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '12px 18px',
+              marginBottom: 8,
+              borderRadius: 8,
+              background: active === item.label ? '#fff' : 'transparent',
+              color: active === item.label ? '#2d4a7a' : '#fff',
+              fontWeight: active === item.label ? 600 : 400,
+              cursor: 'pointer',
+              boxShadow: active === item.label ? '0 2px 8px #0001' : 'none',
+              transition: 'all 0.2s',
+              fontSize: '1rem',
+            }}
+          >
+            <span style={{ fontSize: 20, color: active === item.label ? '#2d4a7a' : '#e0e6ef', filter: active === item.label ? '' : 'grayscale(1)' }}>{item.icon}</span>
+            <span style={{ display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.label}</span>
+          </div>
+        ))}
+      </div>
+      {/* Main content */}
+      <div
+        style={{
+          flex: 1,
+          padding: '32px 16px 0 16px',
+          minWidth: 0,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            gap: 16,
+            flexWrap: 'wrap',
+          }}
+        >
+          <img src={appIcon} alt="logo" style={{ width: 40, borderRadius: '50%' }} />
+          <span style={{ fontWeight: 500, fontSize: 18, color: '#2d4a7a' }}>Admin</span>
+          <div style={{ position: 'relative' }}>
+            <button
+              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 18 }}
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              ▼
+            </button>
+            {menuOpen && (
+              <div style={{ position: 'absolute', right: 0, top: 32, background: '#fff', boxShadow: '0 2px 8px #0002', borderRadius: 8, minWidth: 220, zIndex: 10 }}>
+                <div onClick={() => handleMenuSelect('Thông tin cá nhân')}
+                  style={{ padding: '12px 28px', cursor: 'pointer', borderBottom: '1px solid #eee', display: 'flex', alignItems: 'center', gap: 12, whiteSpace: 'nowrap' }}>
+                  <span>👤</span> Thông tin cá nhân
+                </div>
+                <div onClick={() => handleMenuSelect('Đổi mật khẩu')}
+                  style={{ padding: '12px 28px', cursor: 'pointer', borderBottom: '1px solid #eee', display: 'flex', alignItems: 'center', gap: 12, whiteSpace: 'nowrap' }}>
+                  <span>🔑</span> Đổi mật khẩu
+                </div>
+                <div onClick={() => handleMenuSelect('Thoát')}
+                  style={{ padding: '12px 28px', cursor: 'pointer', color: 'red', display: 'flex', alignItems: 'center', gap: 12, whiteSpace: 'nowrap' }}>
+                  <span>⏻</span> Thoát
+                </div>
               </div>
             )}
           </div>
         </div>
-        {/* Welcome Card and Info */}
-        <div style={{ display: 'flex', gap: 32, marginTop: 32, padding: '0 32px' }}>
-          <section style={{ background: '#e8f0fc', borderRadius: 12, padding: 24, flex: '0 0 340px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <img src={appIcon} alt="Avatar" style={{ width: 100, borderRadius: '50%', objectFit: 'cover', aspectRatio: '1/1', background: '#fff' }} />
-            <div style={{ marginTop: 12, fontWeight: 600, fontSize: 18 }}>Mạnh</div>
-            <div style={{ marginTop: 8, background: '#222', color: '#fff', borderRadius: 6, padding: '2px 12px', fontSize: 14 }}>Trưởng phòng khám</div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: 18 }}>
-              <div style={{ textAlign: 'center', flex: 1 }}>
-                <div style={{ fontSize: 14, color: '#888' }}>Mã</div>
-                <div style={{ fontWeight: 500 }}>TPK</div>
-              </div>
-              <div style={{ textAlign: 'center', flex: 1 }}>
-                <div style={{ fontSize: 14, color: '#888' }}>Giới tính</div>
-                <div style={{ fontWeight: 500 }}>Nam</div>
-              </div>
+        {/* Main content area */}
+        <div style={{ marginTop: 32 }}>
+          <h2 style={{ color: '#2d4a7a', fontWeight: 500, fontSize: '1.3rem', marginBottom: 16 }}>Trang chủ</h2>
+          <div
+            style={{
+              background: '#fff',
+              borderRadius: 12,
+              padding: '18px 12px',
+              boxShadow: '0 2px 8px #0001',
+              marginBottom: 16,
+              maxWidth: 400,
+              minWidth: 220,
+              width: '100%',
+              display: 'inline-block',
+            }}
+          >
+            <div style={{ fontSize: 18, fontWeight: 500, color: '#2d4a7a', marginBottom: 8 }}>Chào mừng trở lại!</div>
+            <div style={{ marginTop: 8, display: 'flex', gap: 32, flexWrap: 'wrap' }}>
+              <div>ID: Admin</div>
+              <div>Vai trò: Quản trị viên</div>
             </div>
-            <div style={{ marginTop: 18, color: '#2a5ca4', fontWeight: 500, fontSize: 18 }}>Chào mừng trở lại!</div>
-          </section>
-          <section style={{ background: '#fff', borderRadius: 12, padding: 24, flex: 1, boxShadow: '0 2px 8px rgba(0,0,0,0.04)', display: 'flex', gap: 24 }}>
-            <div style={{ flex: 1 }}>
-              <div style={{ background: '#fff', borderRadius: 8, padding: 24, boxShadow: '0 2px 8px #0001', textAlign: 'center' }}>
-                <div style={{ fontSize: 18, color: '#222', marginBottom: 8 }}>Giấy khám bệnh</div>
-                <div style={{ fontSize: 32, fontWeight: 600 }}>10</div>
-              </div>
+          </div>
+          {/* Các card thống kê */}
+          <div
+            style={{
+              display: 'flex',
+              gap: 24,
+              marginTop: 8,
+              flexWrap: 'wrap',
+            }}
+          >
+            <div style={{ background: '#fff', borderRadius: 10, padding: 18, minWidth: 160, boxShadow: '0 2px 8px #0001', textAlign: 'center', flex: '1 1 160px', marginBottom: 12 }}>
+              <div style={{ fontWeight: 500 }}>Giấy khám bệnh</div>
+              <div style={{ fontSize: 22, fontWeight: 700, margin: '8px 0' }}>10</div>
+              <span style={{ fontSize: 22, color: '#bfc8d8' }}>📄</span>
             </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ background: '#fff', borderRadius: 8, padding: 24, boxShadow: '0 2px 8px #0001', textAlign: 'center' }}>
-                <div style={{ fontSize: 18, color: '#222', marginBottom: 8 }}>Đơn thuốc</div>
-                <div style={{ fontSize: 32, fontWeight: 600 }}>10</div>
-              </div>
+            <div style={{ background: '#fff', borderRadius: 10, padding: 18, minWidth: 160, boxShadow: '0 2px 8px #0001', textAlign: 'center', flex: '1 1 160px', marginBottom: 12 }}>
+              <div style={{ fontWeight: 500 }}>Đơn thuốc</div>
+              <div style={{ fontSize: 22, fontWeight: 700, margin: '8px 0' }}>10</div>
+              <span style={{ fontSize: 22, color: '#bfc8d8' }}>📝</span>
             </div>
-            {/* Add more cards here if needed */}
-          </section>
+            <div style={{ background: '#fff', borderRadius: 10, padding: 18, minWidth: 160, boxShadow: '0 2px 8px #0001', textAlign: 'center', flex: '1 1 160px', marginBottom: 12 }}>
+              <div style={{ fontWeight: 500 }}>Thanh toán</div>
+              <div style={{ fontSize: 22, fontWeight: 700, margin: '8px 0' }}>10</div>
+              <span style={{ fontSize: 22, color: '#bfc8d8' }}>💲</span>
+            </div>
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
-};
+}
 
 export default MainPage;

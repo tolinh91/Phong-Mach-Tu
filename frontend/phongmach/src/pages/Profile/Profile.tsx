@@ -1,5 +1,5 @@
 import React from 'react';
-import './Profile.css'; // If you want to separate styles
+import './Profile.css';
 
 const Profile: React.FC = () => {
   return (
