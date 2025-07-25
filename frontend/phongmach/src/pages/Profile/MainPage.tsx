@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import appIcon from '../../assets/appicon.png';
 
 const sidebarItems = [
@@ -15,36 +15,18 @@ const sidebarItems = [
 
 function MainPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [active, setActive] = useState("Trang chủ");
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Highlight sidebar item based on current route
+  useEffect(() => {
+    const found = sidebarItems.find(item => item.route === location.pathname);
+    if (found) setActive(found.label);
+  }, [location.pathname]);
+
   const handleSidebarClick = (item: typeof sidebarItems[0]) => {
-    setActive(item.label);
-    switch (item.label) {
-      case "Trang chủ":
-        navigate("/main");
-        break;
-      case "Giấy khám bệnh":
-        navigate("/qlgkb");
-        break;
-      case "Bệnh nhân":
-        navigate("/qlbenhnhan");
-        break;
-      case "Đơn thuốc":
-        navigate("/qldonthuoc");
-        break;
-      case "Vật tư":
-        navigate("/qlvattu");
-        break;
-      case "Thanh toán":
-        navigate("/thanhtoan");
-        break;
-      case "Cài đặt":
-        navigate("/caidat");
-        break;
-      default:
-        break;
-    }
+    navigate(item.route);
   };
 
   const handleMenuSelect = (option: string) => {

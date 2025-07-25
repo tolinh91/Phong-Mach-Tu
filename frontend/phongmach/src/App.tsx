@@ -8,6 +8,8 @@ import SearchPass3 from './pages/Profile/SearchPass3';
 import MainPage from './pages/Profile/MainPage';
 import ChangePassword from './pages/Profile/ChangePassword';
 import QLGKB from './pages/GiayKhamBenh/QLGKB';
+import DetailGKB from './pages/GiayKhamBenh/DetailGKB';
+import PrintGKB from './pages/GiayKhamBenh/PrintGKB';
 import QLBenhNhan from './pages/BenhNhan/QLBenhNhan';
 import QLDonThuoc from './pages/DonThuoc/QLDonThuoc';
 import QLVatTu from './pages/VatTu/QLVatTu';
@@ -28,6 +30,8 @@ function App() {
         <Route path="/main" element={<MainPage />} />
         <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="/qlgkb" element={<QLGKB />} />
+        <Route path="/qlgkb/detail" element={<DetailGKB />} />
+        <Route path="/qlgkb/print" element={<PrintGKB />} />
         <Route path="/qlbenhnhan" element={<QLBenhNhan />} />
         <Route path="/qldonthuoc" element={<QLDonThuoc />} />
         <Route path="/qlvattu" element={<QLVatTu />} />

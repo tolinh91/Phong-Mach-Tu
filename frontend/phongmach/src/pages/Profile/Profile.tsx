@@ -56,8 +56,10 @@ const Profile: React.FC = () => {
                 <tr><td style={{ padding: '8px 0', color: '#222', width: 180 }}>Họ và tên:</td><td>Mạnh</td></tr>
                 <tr><td style={{ padding: '8px 0', color: '#222' }}>CCCD:</td><td>12 chữ số</td></tr>
                 <tr><td style={{ padding: '8px 0', color: '#222' }}>Email:</td><td>levanmanh@gmail.com</td></tr>
-                <tr><td style={{ padding: '8px 0', color: '#222' }}>Ngày sinh:</td><td>1/1/2002</td></tr>
-                <tr><td style={{ padding: '8px 0', color: '#222' }}>Số điện thoại:</td><td>10 chữ số</td></tr>
+                <tr>
+                  <td style={{ padding: '8px 0', color: '#222' }}>Ngày sinh / Số điện thoại:</td>
+                  <td>1/1/2002 / 10 chữ số</td>
+                </tr>
                 <tr><td style={{ padding: '8px 0', color: '#222' }}>Địa chỉ</td><td>Đường 1, Thủ Đức</td></tr>
                 <tr><td style={{ padding: '8px 0', color: '#222' }}>Trường đại học – chuyên ngành</td><td>UTE – Quản lý công nghiệp</td></tr>
               </tbody>
