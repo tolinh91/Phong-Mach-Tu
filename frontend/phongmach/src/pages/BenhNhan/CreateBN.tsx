@@ -25,9 +25,6 @@ const CreateBN = () => {
     code: '',
     name: '',
     gender: '',
-    phone: '',
-    dob: '',
-    address: '',
   });
 
   React.useEffect(() => {
