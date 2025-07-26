@@ -21,14 +21,14 @@ const CreateBN = () => {
   const [active, setActive] = useState("Bệnh nhân");
   const [menuOpen, setMenuOpen] = useState(false);
   // Form state
-  const [form, setForm] = useState({
-    code: '',
-    name: '',
-    gender: '',
-    phone: '',
-    dob: '',
-    address: '',
-  });
+  // const [form, setForm] = useState({
+  //   code: '',
+  //   name: '',
+  //   gender: '',
+  //   phone: '',
+  //   dob: '',
+  //   address: '',
+  // });
 
   React.useEffect(() => {
     const found = sidebarItems.find(item => item.route === location.pathname);
