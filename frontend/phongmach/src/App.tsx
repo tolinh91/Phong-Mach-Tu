@@ -15,6 +15,8 @@ import QLDonThuoc from './pages/DonThuoc/QLDonThuoc';
 import QLVatTu from './pages/VatTu/QLVatTu';
 import ThanhToan from './pages/ThanhToan/ThanhToan';
 import CaiDat from './pages/CaiDat/CaiDat';
+import CreateDT from './pages/DonThuoc/CreateDT';
+// import ThuocComponent from './pages/Thuoc/ThuocComponent'; // nếu có
 
 function App() {
   return (
@@ -37,6 +39,7 @@ function App() {
         <Route path="/qlvattu" element={<QLVatTu />} />
         <Route path="/thanhtoan" element={<ThanhToan />} />
         <Route path="/caidat" element={<CaiDat />} />
+        <Route path="/qldonthuoc/tao" element={<CreateDT />} />
       </Routes>
     </Router>
   );
