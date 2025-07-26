@@ -34,8 +34,10 @@ const CreateDT = () => {
     quantity: '',
     usage: '',
   });
+  // Danh sách thuốc đã thêm
+  const [medicines, setMedicines] = useState<{ medicine: string; quantity: string; usage: string }[]>([]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type, checked } = e.target;
     setForm(f => ({
       ...f,
@@ -43,8 +45,47 @@ const CreateDT = () => {
     }));
   };
 
+  // Thêm thuốc vào danh sách
+  const handleAddMedicine = () => {
+    if (!form.medicine || !form.quantity || !form.usage) return;
+    setMedicines(prev => [
+      ...prev,
+      {
+        medicine: form.medicine,
+        quantity: form.quantity,
+        usage: form.usage
+      }
+    ]);
+    setForm(f => ({ ...f, medicine: '', quantity: '', usage: '' }));
+  };
+
+  // Xóa thuốc khỏi danh sách
+  const handleRemoveMedicine = (idx: number) => {
+    setMedicines(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  // Lưu đơn thuốc vào localStorage và chuyển về QLDonThuoc
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.patient || !form.doctor || medicines.length === 0) {
+      alert('Vui lòng nhập đầy đủ thông tin và thêm ít nhất 1 thuốc!');
+      return;
+    }
+    const newDonThuoc = {
+      patient: form.patient,
+      bhyt: form.bhyt,
+      doctor: form.doctor,
+      medicines: medicines,
+      createdAt: new Date().toISOString()
+    };
+    // Lưu vào localStorage
+    const oldList = JSON.parse(localStorage.getItem('donthuoc_list') || '[]');
+    localStorage.setItem('donthuoc_list', JSON.stringify([...oldList, newDonThuoc]));
+    navigate('/qldonthuoc');
+  };
+
   return (
-    <div style={{ minHeight: '100vh', width: '100vw', display: 'flex', background: '#f5f6fa' }}>
+    <form style={{ minHeight: '100vh', width: '100vw', display: 'flex', background: '#f5f6fa' }} onSubmit={handleSave}>
       {/* Sidebar */}
       <div style={{ width: 250, minWidth: 70, background: '#2d4a7a', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 24, position: 'relative' }}>
         <img src={appIcon} alt="logo" style={{ width: '70%', maxWidth: 90, minWidth: 50, borderRadius: '50%', marginBottom: 24, background: '#fff', objectFit: 'cover' }} />
@@ -149,26 +190,52 @@ const CreateDT = () => {
                 <input name="usage" value={form.usage ?? ''} onChange={handleChange} style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid #ccc', fontSize: 16 }} placeholder="Cách dùng..." />
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', gap: 8, alignItems: 'flex-end', marginBottom: 4 }}>
-                <button type="button" style={{ width: 48, height: 48, background: '#e53935', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 500, fontSize: 24, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Xóa">
-                  <span style={{ display: 'inline-block', fontSize: 24 }}>&#128465;</span>
-                </button>
-                <button type="button" style={{ width: 48, height: 48, background: '#1ec9a4', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 500, fontSize: 24, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Thêm">
+                <button type="button" style={{ width: 48, height: 48, background: '#1ec9a4', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 500, fontSize: 24, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Thêm" onClick={handleAddMedicine}>
                   <span style={{ display: 'inline-block', fontSize: 24 }}>+</span>
                 </button>
               </div>
             </div>
+            {/* Danh sách thuốc đã thêm */}
+            {medicines.length > 0 && (
+              <div style={{ marginTop: 12, marginBottom: 18 }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 15 }}>
+                  <thead>
+                    <tr style={{ background: '#e3f2fd' }}>
+                      <th style={{ padding: '8px 12px', border: '1px solid #ddd' }}>Tên thuốc</th>
+                      <th style={{ padding: '8px 12px', border: '1px solid #ddd' }}>Số lượng</th>
+                      <th style={{ padding: '8px 12px', border: '1px solid #ddd' }}>Cách dùng</th>
+                      <th style={{ padding: '8px 12px', border: '1px solid #ddd' }}>Xóa</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {medicines.map((med, idx) => (
+                      <tr key={idx}>
+                        <td style={{ padding: '8px 12px', border: '1px solid #ddd' }}>{med.medicine}</td>
+                        <td style={{ padding: '8px 12px', border: '1px solid #ddd' }}>{med.quantity}</td>
+                        <td style={{ padding: '8px 12px', border: '1px solid #ddd' }}>{med.usage}</td>
+                        <td style={{ padding: '8px 12px', border: '1px solid #ddd', textAlign: 'center' }}>
+                          <button type="button" style={{ background: '#e53935', color: '#fff', border: 'none', borderRadius: 6, padding: '4px 10px', cursor: 'pointer' }} title="Xóa" onClick={() => handleRemoveMedicine(idx)}>
+                            <span style={{ fontSize: 18 }}>&#128465;</span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
             {/* Footer buttons */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 18, marginTop: 32 }}>
               <button type="button" style={{ background: '#263238', color: '#fff', border: 'none', borderRadius: 8, padding: '12px 40px', fontWeight: 500, fontSize: 17, cursor: 'pointer' }} onClick={() => navigate('/qldonthuoc')}>Quay lại</button>
               <button type="submit" style={{ background: '#3949ab', color: '#fff', border: 'none', borderRadius: 8, padding: '12px 40px', fontWeight: 500, fontSize: 17, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
                 <span style={{ display: 'inline-block', fontSize: 22, color: '#1976d2' }}>&#10003;</span>
-                Lưu lại
+                Lưu
               </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
